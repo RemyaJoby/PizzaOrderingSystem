@@ -1,0 +1,42 @@
+<app-top-bar></app-top-bar>
+
+<div class="container">
+  
+  <div class="flex justify-content-center align-items-center gap-2 mb-3">
+    <p-inputSwitch inputId="metakey" [(ngModel)]="metaKeySelection" label="MetaKey"></p-inputSwitch>
+    <!-- <span>MetaKey</span> -->
+</div>
+<p-table [value]="products" selectionMode="multiple" [(selection)]="selectedProducts" [metaKeySelection]="metaKeySelection" dataKey="code" [tableStyle]="{ 'min-width': '50rem' }">
+    <ng-template pTemplate="caption"> Piza Size </ng-template>
+    <ng-template pTemplate="header">
+        <tr>
+            <th>Toppings</th>
+            <th>Small</th>
+            <th>Medium</th>
+            <th>Large</th>
+            <th>Extra-Large</th>
+        </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-product let-rowIndex="rowIndex">
+        <tr [pSelectableRow]="product" [pSelectableRowIndex]="rowIndex">
+            <td>{{ product.description }}
+              <!-- //add price -->
+            </td>
+        </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-offers let-rowIndex="rowIndex">
+      <tr [pSelectableRow]="offer" [pSelectableRowIndex]="rowIndex" [ngClass]="{ 'disabled': offer.disabled }">
+          <td>{{ offer.title }}</td>
+          <td>{{ offer.description }}</td>
+          <td>{{ offer.price }}</td>
+          <button type="button" (click)="applyOfferAndfindTotal({{ offer.title }},{{ offer.price }})">
+            applyOffer
+          </button> 
+      </tr>
+  </ng-template>
+  <ng-template pTemplate="body" let-offers let-rowIndex="rowIndex">
+    <tr><div class="total">{{ applyOfferAndfindTotal() | number: '1.2-2' }}</div></tr>
+   
+</ng-template>
+</p-table>
+</div>
